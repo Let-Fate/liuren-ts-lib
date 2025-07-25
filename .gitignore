@@ -70,3 +70,5 @@ Desktop.ini
 # Vim
 *.swp
 *.swo
+
+.yarn

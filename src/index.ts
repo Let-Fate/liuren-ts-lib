@@ -1,1 +1,3 @@
-console.log(typeof new Date())
+import { getDate } from "./utils/date.js";
+
+console.log(getDate(new Date()))

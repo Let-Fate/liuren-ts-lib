@@ -2,13 +2,15 @@
   "compilerOptions": {
     /* 基本选项 */
     "target": "ES2020", // 编译的目标 JavaScript 版本，ES2020 是一个比较现代和兼容的选择
-    "module": "ESNext", // 使用最新的模块系统，以便打包工具进行 tree-shaking
+    "module": "ES2020", // 使用最新的模块系统，以便打包工具进行 tree-shaking
     "lib": ["ES2020", "DOM"], // 编译时需要引入的库定义文件
     "declaration": true, // 关键！生成 .d.ts 类型声明文件，供库的使用者获得类型提示
     "declarationMap": true, // 为 .d.ts 文件生成 source map
     "sourceMap": true, // 生成 .js.map 文件，方便调试
     "outDir": "./dist", // 编译后输出的文件夹
     "rootDir": "./src", // TypeScript 源文件的根目录
+    "allowJs": true, // 允许编译 JavaScript 文件
+  
 
     /* 严格类型检查选项 */
     "strict": true, // 启用所有严格类型检查选项，强烈推荐！
@@ -26,5 +28,8 @@
     "forceConsistentCasingInFileNames": true // 强制文件名大小写一致
   },
   "include": ["src"], // 指定需要编译的文件夹
-  "exclude": ["node_modules", "dist", "tests"] // 指定需要排除的文件夹
+  "exclude": ["node_modules", "dist", "tests"], // 指定需要排除的文件夹
+  "ts-node": {
+    "esm": true
+  }
 }

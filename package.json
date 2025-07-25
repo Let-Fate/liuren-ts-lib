@@ -4,6 +4,7 @@
   "author": "Coaixy <coaixy@outlook.com>",
   "license": "Apache 2.0",
   "description": "LiuRen TypeScript Library Made by LetFate",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,10 +25,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
+    "start": "yarn build && node dist/index.js",
     "test": "jest",
     "ts": "ts-node src/index.ts",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
+    "fix": "eslint src/**/*.ts --fix",
     "prepare": "yarn build"
   },
   "exports": {
