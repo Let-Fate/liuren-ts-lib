@@ -1,19 +1,28 @@
 import { EightChar, LunarHour, SixtyCycle, SolarDay } from "tyme4ts"
-import { YiMa } from "src/maps/yiMa";
+import { DingMa, TianMa, YiMa } from "src/maps/ma";
+import { LiuHe } from "src/maps/diZhi";
 /**
         "date": "2025年07月25日 10时13分",
         "bazi": "乙巳 癸未 乙未 辛巳",
-        "rima": "巳",
+        "yima": "巳",
         "kong": [
             "辰",
             "巳"
-        ]
+        ],
+        yuejiang: "午",
+        xun:"甲午",
+        dingma:"酉",
+        tianma:"辰"
  */
 export interface DateInfo {
     bazi: string,
     date: string,
     kong: string[],
     yima: string,
+    yuejiang: string,
+    xun: string,
+    dingma: string,
+    tianma: string
 }
 export const getDate = (date: Date): DateInfo => {
     const result: DateInfo = {
@@ -21,6 +30,10 @@ export const getDate = (date: Date): DateInfo => {
         date: "",
         kong: [],
         yima: "",
+        yuejiang: "",
+        xun: "",
+        dingma: "",
+        tianma: ""
     };
     const year = date.getFullYear()
     const month = date.getMonth() + 1
@@ -36,7 +49,13 @@ export const getDate = (date: Date): DateInfo => {
     result.date = `${year}年${month}月${day}日 ${hour}时${minute}分`
     const sixtyCycle = SixtyCycle.fromName(eightChar.getDay().toString())
     result.kong = sixtyCycle.getExtraEarthBranches().map(item => item.toString())
-
+    result.xun = sixtyCycle.getTen().toString()
+    // 月将即月令五行六合位
+    const yueLing = eightChar.getMonth().toString().substring(1,2)
+    result.yuejiang = LiuHe[yueLing as keyof typeof LiuHe]
+    result.tianma = TianMa[yueLing as keyof typeof TianMa]
+    result.dingma = DingMa[result.xun as keyof typeof DingMa]
+    
     const hourBranch = eightChar.getDay().toString().substring(1,2) as keyof typeof YiMa
     if (YiMa.hasOwnProperty(hourBranch)) {
         result.yima = YiMa[hourBranch]
