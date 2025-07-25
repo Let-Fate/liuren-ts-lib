@@ -15,7 +15,8 @@ export interface TianDiPan {
 export interface SanChuan {
     "初传": string[],
     "中传": string[],
-    "末传": string[]
+    "末传": string[],
+    "课体": string
 }
 export interface SiKe {
     "一课": string[],

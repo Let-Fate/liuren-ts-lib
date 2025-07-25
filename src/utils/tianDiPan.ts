@@ -1,4 +1,4 @@
-import { DiZhiArray } from "src/maps/diZhi";
+import { DiZhiArray } from "src/maps/ganZhi";
 import { DateInfo } from "./date";
 import { TianDiPan } from "src/type";
 import { ShenJiangArray, ShunNi, YangGui, YinGui, YinYang } from "src/maps/shenJiang";
@@ -108,8 +108,7 @@ export const getTianDiPan = (date: DateInfo): TianDiPan => {
     }
     // 排布天将
     // 找到贵人位置
-    let guiIndex: keyof typeof tianPan = 
-    0
+    let guiIndex: keyof typeof tianPan = 0
     for (let i = 0; i < 12; i++) {
         if (guiZhi == tianPan[i as keyof typeof tianPan]) {
             guiIndex = i as keyof typeof tianPan
@@ -117,7 +116,7 @@ export const getTianDiPan = (date: DateInfo): TianDiPan => {
         }
     }
     // 贵人位置顺逆
-    const shunNi = ShunNi[tianPan[guiIndex] as keyof typeof ShunNi]
+    const shunNi = ShunNi[DiZhiArray[guiIndex] as keyof typeof ShunNi]
     // 贵人位置顺逆排布天将
     for (let i = 0; i < 12; i++) {
         let index = guiIndex
@@ -136,4 +135,14 @@ export const getTianDiPan = (date: DateInfo): TianDiPan => {
     }
     result.天将 = tianJiang
     return result
+}
+
+export const getGongIndex = (tiandipan: TianDiPan, tian: string) => {
+    const tianPan = tiandipan.天盘
+    for (let i = 0; i < 12; i++) {
+        if (tianPan[i as keyof typeof tianPan] === tian) {
+            return i
+        }
+    }
+    return 0
 }

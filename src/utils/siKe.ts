@@ -30,7 +30,7 @@ export const getSiKe = (date: DateInfo,tianDiPan: TianDiPan):SiKe => {
     siKe.四课 = [`${shangShen}${oldShangShen}`, getTianJiang(tianDiPan, shangShen)]
     return siKe;
 }
-const getShangShen = (tianDiPan: TianDiPan, zhi: string) => {
+export const getShangShen = (tianDiPan: TianDiPan, zhi: string) => {
     let DiPan = tianDiPan["地盘"]
     let TianPan = tianDiPan["天盘"]
     for (let i = 0; i < 12; i++) {
