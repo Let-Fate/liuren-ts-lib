@@ -18,12 +18,14 @@
     "jest": "^30.0.5",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
+    "ts": "ts-node src/index.ts",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "prepare": "yarn build"
@@ -40,6 +42,7 @@
     "url": "https://github.com/let-fate/liuren-ts-lib.git"
   },
   "dependencies": {
-    "jest-util": "^30.0.5"
+    "jest-util": "^30.0.5",
+    "tyme4ts": "^1.3.4"
   }
 }
