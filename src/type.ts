@@ -1,14 +1,11 @@
+import { DateInfo } from "./utils/date"
+
 export interface result {
-    bazi: string,
-    date: string,
-    dizhuantianjiang: ShiErGongEx
-    dizhuantianpan: ShiErGongEx,
-    dungan: ShiErGongEx,
-    geju: string[],
-    kong: string[],
-    rima: string,
-    sanchuan: SanChuan,
-    tiandipan: TianDiPan
+    dateInfo?: DateInfo
+    tiandipan?: TianDiPan
+    siKe?: SiKe
+    sanChuan?: SanChuan
+    dunGan?: ShiErGongEx
 }
 export interface TianDiPan {
     "地盘": ShiErGong,
