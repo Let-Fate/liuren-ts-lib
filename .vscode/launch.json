@@ -2,6 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug with compiled JS",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dist/index.js",
+      "preLaunchTask": "build",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
       "name": "Debug with ts-node",
       "type": "node",
       "request": "launch",
@@ -9,7 +22,11 @@
         "--loader",
         "ts-node/esm"
       ],
-      "program": "${file}",
+      "program": "${workspaceFolder}/src/index.ts",
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "sourceMaps": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
