@@ -1,3 +1,6 @@
 import { getDate } from "./utils/date";
+import { getTianDiPan } from "./utils/tianDiPan";
 
-console.log(getDate(new Date()))
+const date = getDate(new Date())
+const tianDiPan = getTianDiPan(date)
+console.log(tianDiPan)

@@ -1,3 +1,4 @@
+export const DiZhiArray = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
 // 地支六合
 export const LiuHe = {
     "子": "丑",
