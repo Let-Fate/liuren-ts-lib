@@ -71,4 +71,5 @@ Desktop.ini
 *.swp
 *.swo
 
+.yarn/*
 .yarn

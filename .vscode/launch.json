@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug with ts-node",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--loader",
+        "ts-node/esm"
+      ],
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+} 

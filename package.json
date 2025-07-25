@@ -13,6 +13,7 @@
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
+    "esbuild": "^0.25.8",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
@@ -23,9 +24,9 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=es2020 --format=esm --outfile=dist/index.js --sourcemap=inline",
     "dev": "tsc -w",
-    "start": "yarn build && node dist/index.js",
+    "start": "yarn build && node --enable-source-maps dist/index.js",
     "test": "jest",
     "ts": "ts-node src/index.ts",
     "lint": "eslint src/**/*.ts",
