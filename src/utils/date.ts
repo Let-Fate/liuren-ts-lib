@@ -1,4 +1,4 @@
-import { EightChar, LunarHour, SixtyCycle } from "tyme4ts"
+import { EightChar, LunarHour, SixtyCycle, SolarDay } from "tyme4ts"
 import { YiMa } from "src/maps/yiMa";
 /**
         "date": "2025年07月25日 10时13分",
@@ -28,15 +28,16 @@ export const getDate = (date: Date): DateInfo => {
     const hour = date.getHours()
     const minute = date.getMinutes()
     const second = date.getSeconds()
-    const eightChar = LunarHour.fromYmdHms(year, month, day, hour, minute, second).getEightChar();
+    const solar = SolarDay.fromYmd(year, month, day)
+    const lunar = solar.getLunarDay()
+    const eightChar = LunarHour.fromYmdHms(lunar.getYear(), lunar.getMonth(), lunar.getDay(), hour, minute, second).getEightChar();
 
-    result.bazi = `${eightChar.getYear} ${eightChar.getMonth} ${eightChar.getDay} ${eightChar.getHour}`
+    result.bazi = `${eightChar.getYear()} ${eightChar.getMonth()} ${eightChar.getDay()} ${eightChar.getHour()}`
     result.date = `${year}年${month}月${day}日 ${hour}时${minute}分`
-    
-    const sixtyCycle = SixtyCycle.fromName(eightChar.getDay.toString())
+    const sixtyCycle = SixtyCycle.fromName(eightChar.getDay().toString())
     result.kong = sixtyCycle.getExtraEarthBranches().map(item => item.toString())
 
-    const hourBranch = eightChar.getHour.toString().substring(2) as keyof typeof YiMa
+    const hourBranch = eightChar.getDay().toString().substring(1,2) as keyof typeof YiMa
     if (YiMa.hasOwnProperty(hourBranch)) {
         result.yima = YiMa[hourBranch]
     } else {
