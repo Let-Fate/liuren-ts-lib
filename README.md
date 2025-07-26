@@ -40,4 +40,8 @@ console.log(result);
 
 本仓库代码遵循 [Apache 2.0](https://github.com/let-fate/liuren-ts-lib/blob/main/LICENSE) 协议。
 
-**本项目仅供个人学习和研究使用，严禁用于任何商业用途。** 
+**本项目仅供个人学习和研究使用，严禁用于任何商业用途。**
+
+---
+
+由 [ai.letfate.com](https://ai.letfate.com) 提供的 技术支持。 
