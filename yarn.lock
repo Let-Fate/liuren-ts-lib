@@ -3619,7 +3619,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"liuren-ts-lib@workspace:.":
+"liuren-ts-lib@npm:^1.0.1, liuren-ts-lib@workspace:.":
   version: 0.0.0-use.local
   resolution: "liuren-ts-lib@workspace:."
   dependencies:
@@ -3632,6 +3632,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.5.3"
     jest: "npm:^30.0.5"
     jest-util: "npm:^30.0.5"
+    liuren-ts-lib: "npm:^1.0.1"
     prettier: "npm:^3.6.2"
     ts-jest: "npm:^29.4.0"
     ts-node: "npm:^10.9.2"
