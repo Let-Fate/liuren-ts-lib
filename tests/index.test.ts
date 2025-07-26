@@ -1,8 +1,8 @@
-import { add } from '../src/index';
+import { getLiuRenByDate } from "../src";
 
-describe('add function', () => {
-  it('should return the sum of two numbers', () => {
-    expect(add(1, 2)).toBe(3);
-    expect(add(-1, 1)).toBe(0);
-  });
+describe("getLiuRenByDate", () => {
+    it("should return the liuren by date", () => {
+        const result = getLiuRenByDate(new Date());
+        console.log(result);
+    });
 });

@@ -15,12 +15,9 @@ export const zeiKe = (tiandipan: TianDiPan, yongShen: string, name: string): San
         "课体": ""
     }
     sanChuan.课体 = name
-
     sanChuan.初传 = [yongShen, "", "", ""]
-
     let shangShen = getShangShen(tiandipan, yongShen)
     sanChuan.中传 = [shangShen, "", "", ""]
     sanChuan.末传 = [getShangShen(tiandipan, shangShen), "", "", ""]
-
     return sanChuan
 }

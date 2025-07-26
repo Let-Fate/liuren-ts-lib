@@ -30,6 +30,16 @@ export const getSiKe = (date: DateInfo,tianDiPan: TianDiPan):SiKe => {
     siKe.四课 = [`${shangShen}${oldShangShen}`, getTianJiang(tianDiPan, shangShen)]
     return siKe;
 }
+export const getXiaShen = (tianDiPan: TianDiPan, zhi: string) => {
+    let TianPan = tianDiPan["天盘"]
+    let DiPan = tianDiPan["地盘"]
+    for (let i = 0; i < 12; i++) {
+        if (TianPan[i as keyof typeof TianPan] === zhi) {
+            return DiPan[i as keyof typeof TianPan]
+        }
+    }
+    return ""
+}
 export const getShangShen = (tianDiPan: TianDiPan, zhi: string) => {
     let DiPan = tianDiPan["地盘"]
     let TianPan = tianDiPan["天盘"]
@@ -40,7 +50,7 @@ export const getShangShen = (tianDiPan: TianDiPan, zhi: string) => {
     }
     return ""
 }
-const getTianJiang = (tianDiPan: TianDiPan, zhi: string) => {
+export const getTianJiang = (tianDiPan: TianDiPan, zhi: string) => {
     let TianJiang = tianDiPan["天将"]
     let TianPan = tianDiPan["天盘"]
     for (let i = 0; i < 12; i++) {

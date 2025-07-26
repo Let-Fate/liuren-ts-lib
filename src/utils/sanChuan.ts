@@ -2,7 +2,9 @@ import { JiGong } from "src/maps/jiGong"
 import { LiuQin, Relation, WuXing } from "src/maps/wuXing"
 import { SanChuan, ShiErGong, ShiErGongEx, SiKe, TianDiPan } from "src/type"
 import { zeiKe } from "./jiuZongMen/zeiKe"
-import { GanZhiYinYang } from "src/maps/ganZhi"
+import { DiZhiArray, GanZhiYinYang, LiuChong, SanHeFaYong, SanXingYong, TianGanWuHe } from "src/maps/ganZhi"
+import { getShangShen, getTianJiang, getXiaShen } from "./siKe"
+import { YiMa } from "src/maps/ma"
 
 export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
     let sanChuan: SanChuan = {
@@ -51,14 +53,56 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
             zeiIndexArray.push(i)
         }
     }
-    // 元首课
-    if (keNumber == 1 && zeiNumber == 0) {
-        return zeiKe(tiandipan, siKeArray[keIndexArray[0]].substring(0, 1), "元首课")
-    }
     // 重审课
     // 不用考虑克数 因为有贼取贼
-    if (zeiNumber == 1) {
+    if (zeiNumber == 1 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
         return zeiKe(tiandipan, siKeArray[zeiIndexArray[0]].substring(0, 1), "重审课")
+    }
+    // 伏吟带贼
+    if (zeiNumber == 1 && tiandipan.天盘[0] == "子") {
+        sanChuan.课体 = "伏吟课"
+        sanChuan.初传 = [ke1_shang, "", "", ""]
+        const zhongChuan = SanXingYong[ke1_shang as keyof typeof SanXingYong]
+        sanChuan.中传 = [zhongChuan, "", "", ""]
+        const moChuan = SanXingYong[zhongChuan as keyof typeof SanXingYong]
+        sanChuan.末传 = [moChuan, "", "", ""]
+        return sanChuan
+    }
+    // 返吟带贼
+    if (zeiNumber == 1 && tiandipan.天盘[0] == "午") {
+        sanChuan.课体 = "伏吟课"
+        const yongShen = siKeArray[zeiIndexArray[0]].substring(0, 1)
+        sanChuan.初传 = [yongShen, "", "", ""]
+        const zhongChuan = LiuChong[yongShen as keyof typeof LiuChong]
+        sanChuan.中传 = [zhongChuan, "", "", ""]
+        const moChuan = LiuChong[zhongChuan as keyof typeof LiuChong]
+        sanChuan.末传 = [moChuan, "", "", ""]
+        return sanChuan
+    }
+    // 元首课
+    if (keNumber == 1 && zeiNumber == 0 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
+        return zeiKe(tiandipan, siKeArray[keIndexArray[0]].substring(0, 1), "元首课")
+    }
+    // 伏吟课带克
+    if (keNumber == 1 && zeiNumber == 0 && tiandipan.天盘[0] == "子") {
+        sanChuan.课体 = "伏吟课"
+        sanChuan.初传 = [ke1_shang, "", "", ""]
+        const zhongChuan = SanXingYong[ke1_shang as keyof typeof SanXingYong]
+        sanChuan.中传 = [zhongChuan, "", "", ""]
+        const moChuan = SanXingYong[zhongChuan as keyof typeof SanXingYong]
+        sanChuan.末传 = [moChuan, "", "", ""]
+        return sanChuan
+    }
+    // 返吟带克
+    if (keNumber == 1 && zeiNumber == 0 && tiandipan.天盘[0] == "午") {
+        sanChuan.课体 = "返吟课"
+        const yongShen = siKeArray[keIndexArray[0]].substring(0, 1)
+        sanChuan.初传 = [yongShen, "", "", ""]
+        const zhongChuan = LiuChong[yongShen as keyof typeof LiuChong]
+        sanChuan.中传 = [zhongChuan, "", "", ""]
+        const moChuan = LiuChong[zhongChuan as keyof typeof LiuChong]
+        sanChuan.末传 = [moChuan, "", "", ""]
+        return sanChuan
     }
     /**
      *（二）、比用法 
@@ -80,6 +124,10 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
         }
         // 二下贼上为比用，二上克下为知一
         if (yinYangArray.length == 1) {
+            // 返吟
+            if (tiandipan.天盘[0] == "午") {
+                return zeiKe(tiandipan, yinYangArray[0], "返吟课")
+            }
             if (keNumber == 2) {
                 return zeiKe(tiandipan, yinYangArray[0], "知一课")
             }
@@ -156,10 +204,27 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
         }
     }
     /**
+    * 统计课是否重复
+    */
+    const keArray1 = []
+    keArray1.push(ke1_shang + riJi)
+    keArray1.push(ke2_shang + ke2_xia)
+    keArray1.push(ke3_shang + ke3_xia)
+    keArray1.push(ke4_shang + ke4_xia)
+    // 去重
+    const keArray2 = []
+    for (let i = 0; i < keArray1.length; i++) {
+        if (keArray2.indexOf(keArray1[i]) == -1) {
+            keArray2.push(keArray1[i])
+        }
+    }
+    const keArray = keArray2
+    const riGanYinYang = GanZhiYinYang[riGan as keyof typeof GanZhiYinYang]
+    /**
      * 4. 遥克法
      * 法则：四课之内无克，但四课之外，日干遥克三、四课之神，或三、四课之神遥克日干。取此遥克之神为初传。
      */
-    if (keNumber == 0 && zeiNumber == 0) {
+    if (keNumber == 0 && zeiNumber == 0 && keArray.length == 4 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
         // 先论被克 再论克
         // 即shang 克 xia
         const item1 = ke2_shang + ke1_xia
@@ -172,7 +237,7 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
         if (relation1 == "克" && relation2 != "克" && relation3 != "克") {
             return zeiKe(tiandipan, ke2_shang, "蒿矢课")
         }
-        if (relation2 == "克" && relation1 != "克" && relation3 == "克") {
+        if (relation2 == "克" && relation1 != "克" && relation3 != "克") {
             return zeiKe(tiandipan, ke3_shang, "蒿矢课")
         }
         if (relation3 == "克" && relation1 != "克" && relation2 != "克") {
@@ -274,19 +339,166 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
 
     /**
      * 昴星法
+     * ！四课全备
      * 法则：四课无克，且与日干无遥克关系。此时，阳日取天盘“酉”上神为初传；阴日则取地盘“酉”上所临之天盘神为初传。
      */
-    if (keNumber == 0 && zeiNumber == 0) {
-        const riGanYinYang = GanZhiYinYang[riGan as keyof typeof GanZhiYinYang]
+    if (keNumber == 0 && keArray.length == 4) {
         if (riGanYinYang == "阳") {
-            
+            // 酉上作初
+            sanChuan.初传 = [getShangShen(tiandipan, "酉"), "", "", ""]
+            // 支上为中
+            sanChuan.中传 = [ke3_shang, "", "", ""]
+            // 干上为末
+            sanChuan.末传 = [ke1_shang, "", "", ""]
+            sanChuan.课体 = "虎蓬转视课"
+            return sanChuan
         } else {
-            
+            // 酉下作初
+            sanChuan.初传 = [getXiaShen(tiandipan, "酉"), "", "", ""]
+            // 干上为中
+            sanChuan.中传 = [ke1_shang, "", "", ""]
+            // 干上为末
+            sanChuan.末传 = [ke3_shang, "", "", ""]
+            sanChuan.课体 = "冬蛇掩目课"
+            return sanChuan
         }
+    }
+
+    /**
+     * 别责法
+     * 四课不全三课备，无遥无克别责例。刚日干合上头神，柔日支前三合取。皆以天上作初传，阴阳中末干中寄。
+     */
+    // 只有三课
+    if (keArray.length == 3) {
+        // 阳日取干合上之神的上神上神
+        if (riGanYinYang == "阳") {
+            const riGanHe = TianGanWuHe[riGan as keyof typeof TianGanWuHe]
+            const jiGong = JiGong[riGanHe as keyof typeof JiGong]
+            sanChuan.初传 = [getShangShen(tiandipan, jiGong), "", "", ""]
+            sanChuan.中传 = [ke1_shang, "", "", ""]
+            sanChuan.末传 = [ke1_shang, "", "", ""]
+            sanChuan.课体 = "别责课"
+            return sanChuan
+        } else {
+            const riGanSanHe = SanHeFaYong[riJi as keyof typeof SanHeFaYong]
+            sanChuan.初传 = [getShangShen(tiandipan, riGanSanHe), "", "", ""]
+            sanChuan.中传 = [ke1_shang, "", "", ""]
+            sanChuan.末传 = [ke1_shang, "", "", ""]
+            sanChuan.课体 = "别责课"
+            return sanChuan
+        }
+    }
+
+    /**
+     * 八专
+     * 凡干支同位无克，取阳顺阴逆三神为用，曰八专课
+     */
+    if (keArray.length == 2 && tiandipan.天盘[0] != "子") {
+        // 阳日上神 顺数三位发用
+        if (riGanYinYang == "阳") {
+            let index = DiZhiArray.indexOf(ke1_shang)
+            index = index + 2
+            if (index > 11) {
+                index = index - 12
+            }
+            const yongShen = DiZhiArray[index]
+            sanChuan.初传 = [yongShen, "", "", ""]
+            sanChuan.中传 = [ke1_shang, "", "", ""]
+            sanChuan.末传 = [ke1_shang, "", "", ""]
+            sanChuan.课体 = "八专课"
+            return sanChuan
+        } else {
+            let index = DiZhiArray.indexOf(ke4_shang)
+            index = index - 2
+            if (index < 0) {
+                index = index + 12
+            }
+            const yongShen = DiZhiArray[index]
+            sanChuan.初传 = [yongShen, "", "", ""]
+            sanChuan.中传 = [ke1_shang, "", "", ""]
+            sanChuan.末传 = [ke1_shang, "", "", ""]
+            sanChuan.课体 = "八专课"
+            return sanChuan
+        }
+    }
+    /**
+     * 伏吟课
+     * 天盘与地盘重合的课式
+     */
+    if (tiandipan.天盘[0] == "子") {
+        sanChuan.课体 = "伏吟课"
+        // 阳日取干上神
+        // 三刑
+        if (ke1_shang == "丑" || ke1_shang == "寅" || ke1_shang == "子" || ke1_shang == "卯") {
+            if (riGanYinYang == "阳") {
+                sanChuan.初传 = [ke1_shang, "", "", ""]
+                const zhongChuan = SanXingYong[ke1_shang as keyof typeof SanXingYong]
+                sanChuan.中传 = [zhongChuan, "", "", ""]
+                const moChuan = SanXingYong[zhongChuan as keyof typeof SanXingYong]
+                sanChuan.末传 = [moChuan, "", "", ""]
+                return sanChuan
+            } else {
+                sanChuan.初传 = [ke3_shang, "", "", ""]
+                const zhongChuan = SanXingYong[ke3_shang as keyof typeof SanXingYong]
+                sanChuan.中传 = [zhongChuan, "", "", ""]
+                const moChuan = SanXingYong[zhongChuan as keyof typeof SanXingYong]
+                sanChuan.末传 = [moChuan, "", "", ""]
+                return sanChuan
+            }
+        }
+        // 自刑
+        if (ke1_shang == "辰" || ke1_shang == "亥" || ke1_shang == "酉" || ke1_shang == "午") {
+            if (riGanYinYang == "阳") {
+                sanChuan.初传 = [ke1_shang, "", "", ""]
+                sanChuan.中传 = [ke3_shang, "", "", ""]
+                const moChuan = LiuChong[ke3_shang as keyof typeof LiuChong]
+                sanChuan.末传 = [moChuan, "", "", ""]
+                return sanChuan
+            } else {
+                sanChuan.初传 = [ke3_shang, "", "", ""]
+                sanChuan.中传 = [ke1_shang, "", "", ""]
+                const moChuan = LiuChong[ke1_shang as keyof typeof LiuChong]
+                sanChuan.末传 = [moChuan, "", "", ""]
+                return sanChuan
+            }
+        }
+    }
+    /**
+     * 返吟课，凡课十二神，各居冲位，取相克为用，曰返吟课
+     */
+    if (tiandipan.天盘[0] == "午") {
+        // 四课无克 取驿马发
+        sanChuan.课体 = "返吟课"
+        const yongShen = YiMa[ke3_shang as keyof typeof YiMa]
+        sanChuan.初传 = [yongShen, "", "", ""]
+        sanChuan.中传 = [ke3_shang, "", "", ""]
+        sanChuan.末传 = [ke1_shang, "", "", ""]
+        return sanChuan
     }
     return sanChuan;
 }
+// "辛",  "龙",  "财",  "丑"
+export const fillSanChuan = (sanChuan: SanChuan, tiandipan: TianDiPan, dunGan: ShiErGongEx, riGan: string) => {
+    const chu = sanChuan.初传[0]
 
+    let tianJiang = getTianJiang(tiandipan, chu)
+    let relation = getLiuQin(riGan, chu)
+    let dun = dunGan[chu as keyof typeof dunGan]
+    sanChuan.初传 = [chu, tianJiang, relation, dun]
+
+    const zhong = sanChuan.中传[0]
+    tianJiang = getTianJiang(tiandipan, zhong)
+    relation = getLiuQin(riGan, zhong)
+    dun = dunGan[zhong as keyof typeof dunGan]
+    sanChuan.中传 = [zhong, tianJiang, relation, dun]
+
+    const mo = sanChuan.末传[0]
+    tianJiang = getTianJiang(tiandipan, mo)
+    relation = getLiuQin(riGan, mo)
+    dun = dunGan[mo as keyof typeof dunGan]
+    sanChuan.末传 = [mo, tianJiang, relation, dun]
+    return sanChuan
+}
 export const getGanZhi2WuXing = (ganZhi: string) => {
     let result = ""
     for (let i = 0; i < ganZhi.length; i++) {
