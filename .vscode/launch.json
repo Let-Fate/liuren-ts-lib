@@ -5,7 +5,7 @@
       "name": "Debug with compiled JS",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/dist/index.js",
+      "program": "${workspaceFolder}/dist/esm/index.js",
       "preLaunchTask": "build",
       "sourceMaps": true,
       "outFiles": [
@@ -18,11 +18,8 @@
       "name": "Debug with ts-node",
       "type": "node",
       "request": "launch",
-      "runtimeArgs": [
-        "--loader",
-        "ts-node/esm"
-      ],
       "program": "${workspaceFolder}/src/index.ts",
+      "preLaunchTask": "build",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ],

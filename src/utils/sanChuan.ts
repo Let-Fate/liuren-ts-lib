@@ -70,7 +70,7 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
     }
     // 返吟带贼
     if (zeiNumber == 1 && tiandipan.天盘[0] == "午") {
-        sanChuan.课体 = "伏吟课"
+        sanChuan.课体 = "返吟课"
         const yongShen = siKeArray[zeiIndexArray[0]].substring(0, 1)
         sanChuan.初传 = [yongShen, "", "", ""]
         const zhongChuan = LiuChong[yongShen as keyof typeof LiuChong]

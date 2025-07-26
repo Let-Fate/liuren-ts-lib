@@ -4,6 +4,7 @@
   "author": "Coaixy <coaixy@outlook.com>",
   "license": "Apache 2.0",
   "description": "LiuRen TypeScript Library Made by LetFate",
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
