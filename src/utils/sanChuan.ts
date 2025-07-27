@@ -170,6 +170,8 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
      */
     // 贼优先
     // 涉害课
+
+    //俱比
     let sheHaiZeiIndexArray = []
     for (let i = 0; i < zeiIndexArray.length; i++) {
         const ke = siKeArray[zeiIndexArray[i]]
@@ -180,20 +182,45 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
             sheHaiZeiIndexArray.push(zeiIndexArray[i])
         }
     }
+    // 俱不比
+    if (sheHaiZeiIndexArray.length == 0) {
+        sheHaiZeiIndexArray = []
+        for (let i = 0; i < zeiIndexArray.length; i++) {
+            const ke = siKeArray[zeiIndexArray[i]]
+            const shangShen = ke.substring(0, 1)
+            const riYinYang = GanZhiYinYang[riGan as keyof typeof GanZhiYinYang]
+            const yinYang1 = GanZhiYinYang[shangShen as keyof typeof GanZhiYinYang]
+            if (riYinYang != yinYang1) {
+                sheHaiZeiIndexArray.push(zeiIndexArray[i])
+            }
+        }
+    }
     if (zeiNumber > 0) {
         for (let i = 0; i < sheHaiZeiIndexArray.length; i++) {
             const ke = siKeArray[sheHaiZeiIndexArray[i]]
             const shangShen = ke.substring(0, 1)
-            const xiaShen = ke.substring(1, 2)
+            let xiaShen = ke.substring(1, 2)
+            if (sheHaiZeiIndexArray[i] == 0) {
+                xiaShen = JiGong[xiaShen as keyof typeof JiGong]
+            }
             if (xiaShen == "寅" || xiaShen == "申" || xiaShen == "巳" || xiaShen == "亥") {
+                if (tiandipan.天盘[0] == "午") {
+                    return zeiKe(tiandipan, shangShen, "返吟课")
+                }
                 return zeiKe(tiandipan, shangShen, "见机课")
             }
         }
         for (let i = 0; i < sheHaiZeiIndexArray.length; i++) {
             const ke = siKeArray[sheHaiZeiIndexArray[i]]
             const shangShen = ke.substring(0, 1)
-            const xiaShen = ke.substring(1, 2)
+            let xiaShen = ke.substring(1, 2)
+            if (sheHaiZeiIndexArray[i] == 0) {
+                xiaShen = JiGong[xiaShen as keyof typeof JiGong]
+            }
             if (xiaShen == "子" || xiaShen == "午" || xiaShen == "卯" || xiaShen == "酉") {
+                if (tiandipan.天盘[0] == "午") {
+                    return zeiKe(tiandipan, shangShen, "返吟课")
+                }
                 return zeiKe(tiandipan, shangShen, "察微课")
             }
         }
@@ -208,20 +235,45 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
             sheHaiKeIndexArray.push(keIndexArray[i])
         }
     }
+    // 俱不比
+    if (sheHaiKeIndexArray.length == 0) {
+        sheHaiKeIndexArray = []
+        for (let i = 0; i < keIndexArray.length; i++) {
+            const ke = siKeArray[keIndexArray[i]]
+            const shangShen = ke.substring(0, 1)
+            const riYinYang = GanZhiYinYang[riGan as keyof typeof GanZhiYinYang]
+            const yinYang1 = GanZhiYinYang[shangShen as keyof typeof GanZhiYinYang]
+            if (riYinYang != yinYang1) {
+                sheHaiKeIndexArray.push(keIndexArray[i])
+            }
+        }
+    }
     if (zeiNumber == 0 && keNumber > 0) {
         for (let i = 0; i < sheHaiKeIndexArray.length; i++) {
             const ke = siKeArray[sheHaiKeIndexArray[i]]
-            const xiaShen = ke.substring(1, 2)
+            let xiaShen = ke.substring(1, 2)
             const shangShen = ke.substring(0, 1)
+            if (sheHaiKeIndexArray[i] == 0) {
+                xiaShen = JiGong[xiaShen as keyof typeof JiGong]
+            }
             if (xiaShen == "寅" || xiaShen == "申" || xiaShen == "巳" || xiaShen == "亥") {
+                if (tiandipan.天盘[0] == "午") {
+                    return zeiKe(tiandipan, shangShen, "返吟课")
+                }
                 return zeiKe(tiandipan, shangShen, "见机课")
             }
         }
         for (let i = 0; i < sheHaiKeIndexArray.length; i++) {
             const ke = siKeArray[sheHaiKeIndexArray[i]]
             const shangShen = ke.substring(0, 1)
-            const xiaShen = ke.substring(1, 2)
+            let xiaShen = ke.substring(1, 2)
+            if (sheHaiKeIndexArray[i] == 0) {
+                xiaShen = JiGong[xiaShen as keyof typeof JiGong]
+            }
             if (xiaShen == "子" || xiaShen == "午" || xiaShen == "卯" || xiaShen == "酉") {
+                if (tiandipan.天盘[0] == "午") {
+                    return zeiKe(tiandipan, shangShen, "返吟课")
+                }
                 return zeiKe(tiandipan, shangShen, "察微课")
             }
         }
