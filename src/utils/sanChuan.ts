@@ -164,41 +164,64 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
      * 3. 涉害法
      * 法则：当四课中有多处克，且用比用法无法抉择时（如俱比或俱不比），则进入涉害法。此法比较各克神在地盘上“行走”到其本宫所受克的“深度”。
      * 详解：计算方法是从克神所临的天盘宫位，顺数至其地盘本宫，看期间经过了多少个克它的地支，经过多者为“涉害深”，取涉害最深者为初传。
-     * 孟仲季：
      * 寅申巳亥
      * 子午卯酉
      * 辰戌丑未
      */
     // 贼优先
     // 涉害课
+    let sheHaiZeiIndexArray = []
+    for (let i = 0; i < zeiIndexArray.length; i++) {
+        const ke = siKeArray[zeiIndexArray[i]]
+        const shangShen = ke.substring(0, 1)
+        const riYinYang = GanZhiYinYang[riGan as keyof typeof GanZhiYinYang]
+        const yinYang1 = GanZhiYinYang[shangShen as keyof typeof GanZhiYinYang]
+        if (riYinYang == yinYang1) {
+            sheHaiZeiIndexArray.push(zeiIndexArray[i])
+        }
+    }
     if (zeiNumber > 0) {
-        for (let i = 0; i < zeiIndexArray.length; i++) {
-            const ke = siKeArray[zeiIndexArray[i]]
+        for (let i = 0; i < sheHaiZeiIndexArray.length; i++) {
+            const ke = siKeArray[sheHaiZeiIndexArray[i]]
             const shangShen = ke.substring(0, 1)
-            if (shangShen == "寅" || shangShen == "申" || shangShen == "巳" || shangShen == "亥") {
+            const xiaShen = ke.substring(1, 2)
+            if (xiaShen == "寅" || xiaShen == "申" || xiaShen == "巳" || xiaShen == "亥") {
                 return zeiKe(tiandipan, shangShen, "见机课")
             }
         }
-        for (let i = 0; i < zeiIndexArray.length; i++) {
-            const ke = siKeArray[zeiIndexArray[i]]
+        for (let i = 0; i < sheHaiZeiIndexArray.length; i++) {
+            const ke = siKeArray[sheHaiZeiIndexArray[i]]
             const shangShen = ke.substring(0, 1)
-            if (shangShen == "子" || shangShen == "午" || shangShen == "卯" || shangShen == "酉") {
+            const xiaShen = ke.substring(1, 2)
+            if (xiaShen == "子" || xiaShen == "午" || xiaShen == "卯" || xiaShen == "酉") {
                 return zeiKe(tiandipan, shangShen, "察微课")
             }
         }
     }
+    let sheHaiKeIndexArray = []
+    for (let i = 0; i < keIndexArray.length; i++) {
+        const ke = siKeArray[keIndexArray[i]]
+        const shangShen = ke.substring(0, 1)
+        const riYinYang = GanZhiYinYang[riGan as keyof typeof GanZhiYinYang]
+        const yinYang1 = GanZhiYinYang[shangShen as keyof typeof GanZhiYinYang]
+        if (riYinYang == yinYang1) {
+            sheHaiKeIndexArray.push(keIndexArray[i])
+        }
+    }
     if (zeiNumber == 0 && keNumber > 0) {
-        for (let i = 0; i < keIndexArray.length; i++) {
-            const ke = siKeArray[keIndexArray[i]]
+        for (let i = 0; i < sheHaiKeIndexArray.length; i++) {
+            const ke = siKeArray[sheHaiKeIndexArray[i]]
+            const xiaShen = ke.substring(1, 2)
             const shangShen = ke.substring(0, 1)
-            if (shangShen == "寅" || shangShen == "申" || shangShen == "巳" || shangShen == "亥") {
+            if (xiaShen == "寅" || xiaShen == "申" || xiaShen == "巳" || xiaShen == "亥") {
                 return zeiKe(tiandipan, shangShen, "见机课")
             }
         }
-        for (let i = 0; i < keIndexArray.length; i++) {
-            const ke = siKeArray[keIndexArray[i]]
+        for (let i = 0; i < sheHaiKeIndexArray.length; i++) {
+            const ke = siKeArray[sheHaiKeIndexArray[i]]
             const shangShen = ke.substring(0, 1)
-            if (shangShen == "子" || shangShen == "午" || shangShen == "卯" || shangShen == "酉") {
+            const xiaShen = ke.substring(1, 2)
+            if (xiaShen == "子" || xiaShen == "午" || xiaShen == "卯" || xiaShen == "酉") {
                 return zeiKe(tiandipan, shangShen, "察微课")
             }
         }
@@ -429,38 +452,29 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
         sanChuan.课体 = "伏吟课"
         // 阳日取干上神
         // 三刑
-        if (ke1_shang == "丑" || ke1_shang == "寅" || ke1_shang == "子" || ke1_shang == "卯") {
-            if (riGanYinYang == "阳") {
-                sanChuan.初传 = [ke1_shang, "", "", ""]
-                const zhongChuan = SanXingYong[ke1_shang as keyof typeof SanXingYong]
-                sanChuan.中传 = [zhongChuan, "", "", ""]
-                const moChuan = SanXingYong[zhongChuan as keyof typeof SanXingYong]
-                sanChuan.末传 = [moChuan, "", "", ""]
-                return sanChuan
-            } else {
-                sanChuan.初传 = [ke3_shang, "", "", ""]
-                const zhongChuan = SanXingYong[ke3_shang as keyof typeof SanXingYong]
-                sanChuan.中传 = [zhongChuan, "", "", ""]
-                const moChuan = SanXingYong[zhongChuan as keyof typeof SanXingYong]
-                sanChuan.末传 = [moChuan, "", "", ""]
-                return sanChuan
-            }
-        }
-        // 自刑
-        if (ke1_shang == "辰" || ke1_shang == "亥" || ke1_shang == "酉" || ke1_shang == "午") {
-            if (riGanYinYang == "阳") {
-                sanChuan.初传 = [ke1_shang, "", "", ""]
-                sanChuan.中传 = [ke3_shang, "", "", ""]
-                const moChuan = LiuChong[ke3_shang as keyof typeof LiuChong]
-                sanChuan.末传 = [moChuan, "", "", ""]
-                return sanChuan
-            } else {
-                sanChuan.初传 = [ke3_shang, "", "", ""]
-                sanChuan.中传 = [ke1_shang, "", "", ""]
-                const moChuan = LiuChong[ke1_shang as keyof typeof LiuChong]
-                sanChuan.末传 = [moChuan, "", "", ""]
-                return sanChuan
-            }
+        if (riGanYinYang == "阳") {
+            sanChuan.初传 = [ke1_shang, "", "", ""]
+            let zhong = getFuYinNext(ke1_shang)
+            // 若自刑则取支上为中
+            zhong = zhong == ke1_shang ? ke3_shang : zhong
+            sanChuan.中传 = [zhong, "", "", ""]
+            let mo = getFuYinNext(zhong)
+            // 若自刑则取冲为末
+            mo = mo == zhong ? LiuChong[mo as keyof typeof LiuChong] : mo
+            sanChuan.末传 = [mo, "", "", ""]
+            return sanChuan
+        } else {
+            sanChuan.初传 = [ke3_shang, "", "", ""]
+            let zhong = getFuYinNext(ke3_shang)
+            // 若自刑则取支上为中
+            zhong = zhong == ke3_shang ? ke1_shang : zhong
+            sanChuan.中传 = [zhong, "", "", ""]
+            let mo = getFuYinNext(zhong)
+            // 若自刑则取冲为末
+            mo = mo == zhong ? LiuChong[mo as keyof typeof LiuChong] : mo
+            sanChuan.末传 = [mo, "", "", ""]
+            return sanChuan
+
         }
     }
     /**
@@ -530,4 +544,11 @@ const getTongYinYang = (item1: string, item2: string, base: string): string => {
     }
     // 为空则为相同阴阳
     return ""
+}
+
+const getFuYinNext = (zhi: string) => {
+    if (zhi == "辰" || zhi == "亥" || zhi == "酉" || zhi == "午" || zhi == "未" || zhi == "申") {
+        return zhi;
+    }
+    return SanXingYong[zhi as keyof typeof SanXingYong]
 }

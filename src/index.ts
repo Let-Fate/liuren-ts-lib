@@ -5,6 +5,19 @@ import { fillSanChuan, getSanChuan } from "./utils/sanChuan";
 import { getSiKe } from "./utils/siKe";
 import { getTianDiPan } from "./utils/tianDiPan";
 
+const showCopyRight = () => {
+    const styles = [
+        'color: #42c892',
+        'font-size: 14px',
+        'font-family: sans-serif',
+        'font-weight: bold',
+    ].join(';');
+    console.log("%cBy: https://github.com/let-fate/liuren-ts-lib", styles)
+    console.log("免费AI占卜: https://ai.letfate.com", styles)
+}
+
+showCopyRight()
+
 export const getLiuRenByDate = (time: Date) => {
     const date = getDateByObj(time)
     const riGan = date.bazi.split(" ")[2].substring(0, 1)
@@ -37,4 +50,3 @@ export const getLiuRenBySiZhu = (year: string, month: string, day: string, hour:
     }
     return result
 }
-console.log(getLiuRenByDate(new Date("2025-07-26 23:00:00")))
