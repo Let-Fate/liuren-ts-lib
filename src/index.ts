@@ -13,7 +13,6 @@ const showCopyRight = () => {
         'font-weight: bold',
     ].join(';');
     console.log("%cBy: https://github.com/let-fate/liuren-ts-lib", styles)
-    console.log("免费AI占卜: https://ai.letfate.com", styles)
 }
 
 showCopyRight()
@@ -50,3 +49,4 @@ export const getLiuRenBySiZhu = (year: string, month: string, day: string, hour:
     }
     return result
 }
+console.log(getLiuRenByDate(new Date("2025-07-27 0:00:00")))

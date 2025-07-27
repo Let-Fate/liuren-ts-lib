@@ -403,8 +403,8 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
             sanChuan.课体 = "别责课"
             return sanChuan
         } else {
-            const riGanSanHe = SanHeFaYong[riJi as keyof typeof SanHeFaYong]
-            sanChuan.初传 = [getShangShen(tiandipan, riGanSanHe), "", "", ""]
+            const riGanSanHe = SanHeFaYong[ke3_xia as keyof typeof SanHeFaYong]
+            sanChuan.初传 = [riGanSanHe, "", "", ""]
             sanChuan.中传 = [ke1_shang, "", "", ""]
             sanChuan.末传 = [ke1_shang, "", "", ""]
             sanChuan.课体 = "别责课"
