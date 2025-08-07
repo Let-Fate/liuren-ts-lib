@@ -36,4 +36,4 @@ export const getLiuRenBySiZhu = (year: string, month: string, day: string, hour:
     }
     return result
 }
-// console.log(getLiuRenByDate(new Date("2025-07-27 23:00:00")))
+console.log(getLiuRenByDate(new Date("2025-08-8 22:00:00")))

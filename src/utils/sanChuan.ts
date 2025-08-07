@@ -256,7 +256,7 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
             if (sheHaiKeIndexArray[i] == 0) {
                 xiaShen = JiGong[xiaShen as keyof typeof JiGong]
             }
-            if (xiaShen == "寅" || xiaShen == "申" || xiaShen == "巳" || xiaShen == "亥") {
+            if (shangShen == "寅" || shangShen == "申" || shangShen == "巳" || shangShen == "亥") {
                 if (tiandipan.天盘[0] == "午") {
                     return zeiKe(tiandipan, shangShen, "返吟课")
                 }
@@ -270,7 +270,7 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
             if (sheHaiKeIndexArray[i] == 0) {
                 xiaShen = JiGong[xiaShen as keyof typeof JiGong]
             }
-            if (xiaShen == "子" || xiaShen == "午" || xiaShen == "卯" || xiaShen == "酉") {
+            if (shangShen == "子" || shangShen == "午" || shangShen == "卯" || shangShen == "酉") {
                 if (tiandipan.天盘[0] == "午") {
                     return zeiKe(tiandipan, shangShen, "返吟课")
                 }
