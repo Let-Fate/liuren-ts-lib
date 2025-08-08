@@ -299,7 +299,7 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
      * 4. 遥克法
      * 法则：四课之内无克，但四课之外，日干遥克三、四课之神，或三、四课之神遥克日干。取此遥克之神为初传。
      */
-    if (keNumber == 0 && zeiNumber == 0 && keArray.length == 4 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
+    if (keNumber == 0 && zeiNumber == 0 && keArray.length >= 3 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
         // 先论被克 再论克
         // 即shang 克 xia
         const item1 = ke2_shang + ke1_xia
