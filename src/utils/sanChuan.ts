@@ -445,6 +445,28 @@ export const getSanChuan = (siKe: SiKe, tiandipan: TianDiPan): SanChuan => {
      */
     // 只有三课
     if (keArray.length == 3) {
+        // 贼克法
+        let zeiNumberTemp = 0;
+        let keNumberTemp = 0;
+        let zeiIndexArrayTemp = []
+        let keIndexArrayTemp = []
+        for (let i = 0; i < keArray.length; i++) {
+            const relation = getGanZhi2Relation(keArray[i])
+            if (relation == "克") {
+                keNumberTemp++
+                keIndexArrayTemp.push(i)
+            };
+            if (relation == "贼") {
+                zeiNumberTemp++
+                zeiIndexArrayTemp.push(i)
+            }
+        }
+        if (zeiNumberTemp == 1 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
+            return zeiKe(tiandipan, keArray[zeiIndexArrayTemp[0]].substring(0, 1), "重审课")
+        }
+        if (keNumberTemp == 1 && tiandipan.天盘[0] != "子" && tiandipan.天盘[0] != "午") {
+            return zeiKe(tiandipan, keArray[keIndexArrayTemp[0]].substring(0, 1), "元首课")
+        }
         // 阳日取干合上之神的上神上神
         if (riGanYinYang == "阳") {
             const riGanHe = TianGanWuHe[riGan as keyof typeof TianGanWuHe]
