@@ -13,7 +13,6 @@
     "README.md",
     "LICENSE"
   ],
-  "packageManager": "yarn@4.9.1",
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
