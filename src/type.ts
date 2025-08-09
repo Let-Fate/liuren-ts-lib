@@ -1,6 +1,11 @@
 import { DateInfo } from "./utils/date"
+export interface LuNianResult {
+    year: string;
+    luNian: string;
+    gender: string;
+}
 
-export interface result {
+export interface LiuRenResult {
     dateInfo?: DateInfo
     tiandipan?: TianDiPan
     siKe?: SiKe
